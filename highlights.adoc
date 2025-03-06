@@ -1,2 +1,2 @@
 == Mirror OCP 4.16 Images to Quay Mirror Registry
-include::rebit/mirror-ocp4.14-images.adoc[leveloffset=+1]
+include::mirror-ocp4.16-images.adoc[leveloffset=+1]

@@ -1,0 +1,45 @@
+= Download the oc-mirror plugin
+* On the registry node, install podman and skopeo
+
+```bash
+[root@bastion ~]# yum install -y podman, skopeo
+```
+* Create directory /data/utils and download the oc-mirror and mirror-registry binaries
+
+```bash
+[root@dmz-quay]# mkdir -p /data/utils
+[root@dmz-quay]# cd /data/utils
+[root@dmz-quay utils]#
+[root@dmz-quay utils]#  wget https://mirror.openshift.com/pub/openshift-v4/s390x/clients/ocp/4.16.30/oc-mirror.tar.gz
+--2024-02-06 18:18:04--  https://mirror.openshift.com/pub/openshift-v4/s390x/clients/ocp/4.16.30/oc-mirror.tar.gz
+Length: 50846813 (48M) [application/x-tar]
+Saving to: ‘oc-mirror.tar.gz’
+
+oc-mirror.tar.gz                                    0%[                                                                                                           ]       0  --.-KB/s
+oc-mirror.tar.gz                                    0%[                                                                                                           ] 119.28K   574KB/s
+oc-mirror.tar.gz                                    1%[>                                                                                                          ] 535.05K  1.28MB/s
+oc-mirror.tar.gz                                    4%[===>                                                                                                       ]   2.18M  3.58MB/s
+oc-mirror.tar.gz                                   18%[==================>                                                                                        ]   8.85M  10.9MB/s
+oc-mirror.tar.gz                                   25%[==========================>                                                                                ]  12.27M  10.3MB/s
+oc-mirror.tar.gz                                   28%[==============================>                                                                            ]  14.05M  10.1MB/s
+oc-mirror.tar.gz                                   33%[==================================>                                                                        ]  16.15M  10.1MB/s
+oc-mirror.tar.gz                                   33%[===================================>                                                                       ]  16.46M  9.12MB/s
+oc-mirror.tar.gz                                   46%[================================================>                                                          ]  22.57M  11.3MB/s
+oc-mirror.tar.gz                                   62%[==================================================================>                                        ]  30.44M  13.8MB/s
+oc-mirror.tar.gz                                   67%[=======================================================================>                                   ]  32.65M  13.3MB/s
+oc-mirror.tar.gz                                   78%[===================================================================================>                       ]  38.27M  14.4MB/s
+oc-mirror.tar.gz                                   88%[=============================================================================================>             ]  42.69M  14.6MB/s
+oc-mirror.tar.gz                                  100%[==========================================================================================================>]  48.49M  15.9MB/s    in 3.1s
+
+2024-02-06 18:18:07 (15.9 MB/s) - ‘oc-mirror.tar.gz’ saved [50846813/50846813]
+
+[root@dmz-quay utils]# wget https://developers.redhat.com/content-gateway/rest/mirror/pub/openshift-v4/clients/mirror-registry/latest/mirror-registry.tar.gz
+[root@dmz-quay utils]# ls -ltra
+[root@dmz-quay utils]#
+total 1669880
+-rw-r--r-- 1 root root   50846813 May 5 16:33 01;31 oc-mirror.tar.gz
+-rw-r--r-- 1 root root   60872132 Apr 28 16:33 01;31 mirror-registry.tar.gz
+drwxr-xr-x 3 root root         24 Apr 28 17:07 01;34m..
+drwxr-xr-x 2 root root         60 Apr 28 18:18 01;34m.
+```
+
