@@ -30,4 +30,37 @@ podman login -u init -p discopass $(hostname):8443
 . $HOME/.docker/config.json (created on the lowside jump system)
 . $XDG_RUNTIME_DIR/containers/auth.json (created on the highside system)
 
+* Upload OpenShift’s installation images into the mirror-registry
+
+```bash
+# sudo mv -v /mnt/high-side-data/oc-mirror /bin/
+renamed '/mnt/high-side-data/oc-mirror' -> '/bin/oc-mirror'
+
+```
+
+* With the mirroring tools installed and configured, We can run oc-mirror to upload the installation images into mirror registry.
+
+```bash
+# cd /mnt/high-side-data
+# oc-mirror --from=/mnt/high-side-data/mirror_seq1_000000.tar docker://$(hostname):8443
+
+Logging to .oc-mirror.log
+Checking push permissions for ip-10-0-54-198.us-west-2.compute.internal:8443
+Publishing image set from archive "/mnt/high-side-data/mirror_seq1_000000.tar" to registry "ip-10-0-54-198.us-west-2.compute.internal:8443"
+ip-10-0-54-198.us-west-2.compute.internal:8443/
+  openshift/release
+    blobs:
+      file://openshift/release sha256:d8190195889efb5333eeec18af9b6c82313edd4db62989bd3a357caca4f13f0e 1.404KiB
+      file://openshift/release sha256:cd8c26ed660bfc4447a17563df1dc5374f1cbd2ced1d7ae0af135fabaff1f7d2 17.86KiB
+
+... a long, mind-expanding, upload ...
+
+info: Mirroring completed in 18m10.33s (39.33MB/s)
+Rendering catalog image "ip-10-0-8-121.us-west-2.compute.internal:8443/redhat/redhat-operator-index:v4.14" with file-based catalog
+Writing image mapping to oc-mirror-workspace/results-1714533240/mapping.txt
+Writing UpdateService manifests to oc-mirror-workspace/results-1714533240
+Writing CatalogSource manifests to oc-mirror-workspace/results-1714533240
+Writing ICSP manifests to oc-mirror-workspace/results-1714533240
+
+```
 
