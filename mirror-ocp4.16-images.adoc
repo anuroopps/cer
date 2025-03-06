@@ -42,7 +42,105 @@ total 1669880
 drwxr-xr-x 3 root root         24 Apr 28 17:07 01;34m..
 drwxr-xr-x 2 root root         60 Apr 28 18:18 01;34m.
 
-[root@dmz-quay]# chmod +x oc-mirror
+= Unzip the quay oc-mirror file
+....
+[root@dmz-quay]# tar -xzf oc-mirror.tar.gz 
+[root@dmz-quay]# rm -f oc-mirror.tar.gz 
+[root@dmz-quay]# chmod +x oc-mirror 
 [root@dmz-quay]# sudo cp -v oc-mirror /bin
+
+....
+= Download the pull-secret.json
+* Download the pull secret json from above url https://console.redhat.com/openshift/install/metal/user-provisioned and place in below folder
+
+```bash
+[root@dmz-quay data]# ls -ltr
+total 156776828
+-rw-------.   1 root root         2790 Feb 28 17:17 pull-secret.json
+-rw-r--r-- 1 root root   50846813 May 5 16:33 01;31 oc-mirror.tar.gz
+-rw-r--r-- 1 root root   60872132 Apr 28 16:33 01;31 mirror-registry.tar.gz
+drwxr-xr-x 3 root root         24 Apr 28 17:07 01;34m..
+drwxr-xr-x 2 root root         60 Apr 28 18:18 01;34m.
+
+[root@dmz-quay data]# cat pull-secret.txt | python3 -m json.tool > pull-secret.json
+
+{
+   "auths": {
+         "dmz-quay.ek3np.rbi1.rbi.org.in:8443": {
+                "auth": "aW5pdDpyZWRoYXQxMjM="
+         },
+         "cloud.openshift.com": {
+                "auth": "b3BlbnNoaWZ0LXJlbGVhc <SNIPPED> R09aVTdWUFpSM0Q4NTAwMUZPWUtCOFJWOUVBTw==",
+                                         },
+         "quay.io":{
+                "auth":"b3BlbnNoaWZ0LXJlbGVhc2Ut  <SNIPPED> dWUFpSM0Q4NTAwMUZPWUtCOFJWOUVBTw==",
+         }
+         "registry.connect.redhat.com": {
+                "auth": "fHVoYy1wb29sLTkwZWJmMTY5LTQ3NDEt <SNIPPED> 91LVFMT1JZZVV3cFRwbW5JZw==",
+                                         },
+         "registry.redhat.io": {
+                "auth": "fHVoYy1wb29sLTkwZWJmMTY5LTQ3NDEt <SNIPPED> 1LVFMT1JZZVV3cFRwbW5JZw==",
+         }
+   }
+}
+```
+= copying the provided pull secret into the default location
+```bash
+[root@dmz-quay]# mkdir -v $HOME/.docker
+[root@dmz-quay]# cp -v $HOME/pull-secret-example.json $HOME/.docker/config.json
+'/home/lab-user/pull-secret-example.json' -> '/home/lab-user/.docker/config.json'
+```
+
+= Now that the mirroring and installation tools have been downloaded and extracted and we can create imagesetconfig and start mirroring the images
+
+* Create a file called imageset-config.yaml with the following contents:
+```bash
+cat << EOF > /mnt/low-side-data/imageset-config.yaml
+---
+kind: ImageSetConfiguration
+apiVersion: mirror.openshift.io/v1alpha2
+storageConfig:
+  local:
+    path: ./
+mirror:
+  platform:
+    channels:
+    - name: stable-4.14
+      type: ocp
+      minVersion: 4.14.19
+      maxVersion: 4.14.20
+
+  operators:
+  - catalog: registry.redhat.io/redhat/redhat-operator-index:v4.14
+    packages:
+    - name: web-terminal
+      channels:
+      - name: fast
+
+  additionalImages:
+  - name: registry.redhat.io/rhel8/support-tools
+
+  helm: {}
+EOF
+```
+
+
+* oc-mirror is run with an argument to specify the ImageSetConfig file and the output URL
+
+```bash
+# cd /mnt/low-side-data
+# oc-mirror --config imageset-config.yaml file:///mnt/low-side-data
+
+Logging to .oc-mirror.log
+Creating directory: /mnt/low-side-data/oc-mirror-workspace/src/publish
+Creating directory: /mnt/low-side-data/oc-mirror-workspace/src/v2
+Creating directory: /mnt/low-side-data/oc-mirror-workspace/src/charts
+Creating directory: /mnt/low-side-data/oc-mirror-workspace/src/release-signatures
+No metadata detected, creating new workspace
+
+...  a long, uncomfortable pause ...
+
+info: Mirroring completed
+Creating archive /mnt/low-side-data/mirror_seq1_000000.tar
 ```
 
