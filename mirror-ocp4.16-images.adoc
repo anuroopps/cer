@@ -41,5 +41,8 @@ total 1669880
 -rw-r--r-- 1 root root   60872132 Apr 28 16:33 01;31 mirror-registry.tar.gz
 drwxr-xr-x 3 root root         24 Apr 28 17:07 01;34m..
 drwxr-xr-x 2 root root         60 Apr 28 18:18 01;34m.
+
+[root@dmz-quay]# chmod +x oc-mirror
+[root@dmz-quay]# sudo cp -v oc-mirror /bin
 ```
 
