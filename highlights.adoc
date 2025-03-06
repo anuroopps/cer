@@ -1,2 +1,6 @@
+== Creating ImageSetConfig File to Mirror OCP 4.16 images on DMZ-Bastion
+include::dmz-bastion.adoc[leveloffset=+1==]
+
 == Mirror OCP 4.16 Images to Quay Mirror Registry
-include::mirror-ocp4.16-images.adoc[leveloffset=+1]
+include::dmz-quay.adoc[leveloffset=+1==]
+

@@ -1,0 +1,35 @@
+= Begin by using rsync to copy the mirror-registry file from the DMZ-Bastion server to the DMZ_Quay server.
+
+```bash
+# cd /mnt/high-side-data
+# tar -xzvf mirror-registry.tar.gz
+image-archive.tar
+execution-environment.tar
+mirror-registry
+
+```
+
+* Trusting the mirror-registry’s TLS certificate. Copy the Root Certificate Authority file (rootCA.pem) that the mirror-registry created in to the Red Hat Enterprise Linux CA trust directory. Then run the update-ca-trust command.
+
+```bash
+# sudo cp -v $HOME/quay-install/quay-rootCA/rootCA.pem /etc/pki/ca-trust/source/anchors/
+# sudo update-ca-trust
+'/home/lab-user/quay-install/quay-rootCA/rootCA.pem' -> '/etc/pki/ca-trust/source/anchors/rootCA.pem'
+```
+* Log in to the mirror-registry
+* The username is init and the password discopass.
+
+
+```bash
+podman login -u init -p discopass $(hostname):8443
+```
+
+* The podman login command creates an authentication file / pull secret at $XDG_RUNTIME_DIR/containers/auth.json, for example: /run/user/1001/containers/auth.json.
+
+* NOTE:- The oc-mirror command looks for pull secrets in multiple locations:
+
+* $HOME/.docker/config.json (created on the lowside jump system)
+
+* $XDG_RUNTIME_DIR/containers/auth.json (created on the highside system)
+
+

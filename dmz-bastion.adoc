@@ -144,4 +144,33 @@ No metadata detected, creating new workspace
 info: Mirroring completed
 Creating archive /mnt/low-side-data/mirror_seq1_000000.tar
 ```
+* Transfer the installation content
+
+* After the oc-mirror command has completed, use rsync on the jump system to copy the installation content into /mnt/high-side-data on the highside system.
+
+```bash
+# rsync -avP /mnt/low-side-data/ highside:/mnt/high-side-data/
+
+
+sending incremental file list
+./
+.oc-mirror.log
+        186,850 100%  146.94MB/s    0:00:00 (xfr#1, to-chk=124/126)
+imageset-config.yaml
+            469 100%  458.01kB/s    0:00:00 (xfr#2, to-chk=123/126)
+mirror_seq1_000000.tar
+ 22,931,079,168  92%  125.16MB/s    0:00:15  (xfr#2, to-chk=122/126)
+
+... a long, but amazing, transfer ...
+
+publish/
+publish/.metadata.json
+        332,183 100%  332.37kB/s    0:00:00 (xfr#66, to-chk=0/127)
+
+sent 30,795,621,525 bytes  received 1,565 bytes  131,324,618.72 bytes/sec
+total size is 30,788,095,434  speedup is 1.00
+```
+
+
+
 
