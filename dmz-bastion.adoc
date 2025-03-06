@@ -146,7 +146,7 @@ Creating archive /mnt/low-side-data/mirror_seq1_000000.tar
 ```
 * Transfer the installation content
 
-* After the oc-mirror command has completed, use rsync on the jump system to copy the installation content into /mnt/high-side-data on the highside system.
+- After the oc-mirror command has completed, use rsync on the jump system to copy the installation content into /mnt/high-side-data on the highside system.
 
 ```bash
 # rsync -avP /mnt/low-side-data/ highside:/mnt/high-side-data/
