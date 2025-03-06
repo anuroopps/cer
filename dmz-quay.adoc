@@ -28,6 +28,6 @@ podman login -u init -p discopass $(hostname):8443
 
 - The oc-mirror command looks for pull secrets in multiple locations:
 . $HOME/.docker/config.json (created on the lowside jump system)
-.. $XDG_RUNTIME_DIR/containers/auth.json (created on the highside system)
+. $XDG_RUNTIME_DIR/containers/auth.json (created on the highside system)
 
 
