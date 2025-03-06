@@ -27,7 +27,7 @@ podman login -u init -p discopass $(hostname):8443
 * The podman login command creates an authentication file / pull secret at $XDG_RUNTIME_DIR/containers/auth.json, for example: /run/user/1001/containers/auth.json.
 
 - The oc-mirror command looks for pull secrets in multiple locations:
-- $HOME/.docker/config.json (created on the lowside jump system)
-- $XDG_RUNTIME_DIR/containers/auth.json (created on the highside system)
+. $HOME/.docker/config.json (created on the lowside jump system)
+.. $XDG_RUNTIME_DIR/containers/auth.json (created on the highside system)
 
 
